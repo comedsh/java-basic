@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>yang.shang</groupId>
+	<artifactId>java_basic</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+	</dependencies>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>PluginRepository</id>
+			<name>PluginRepository</name>
+			<url>http://218.244.137.212:8888/nexus/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<repositories>
+		<repository>
+			<id>PluginRepository</id>
+			<name>PluginRepository</name>
+			<url>http://218.244.137.212:8888/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+</project>
