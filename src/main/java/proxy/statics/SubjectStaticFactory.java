@@ -1,6 +1,6 @@
 package proxy.statics;
 
-import proxy.RealSubject;
+import proxy.SubjectImpl;
 import proxy.Subject;
 
 /**
@@ -16,7 +16,7 @@ public class SubjectStaticFactory {
 
 	public static Subject getInstance() {
 		
-		return new ProxySubject(new RealSubject());
+		return new ProxySubject(new SubjectImpl());
 	
 	}
 }
