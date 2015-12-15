@@ -14,7 +14,7 @@ import proxy.SubjectImpl;
 public class DynamicProxyTest {
 	
 	@Test 
-	public void test(){
+	public void test() throws Exception{
 		
 		AuthenticationHolder.setUser("manager");
 		

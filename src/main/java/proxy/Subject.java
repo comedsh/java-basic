@@ -4,8 +4,6 @@ import proxy.dynamic.Authorized;
 
 /**
  * 
- * 申明接口 - 通过接口实现静态代理
- * 
  * @author shang yang
  *
  * @version
@@ -15,7 +13,7 @@ import proxy.dynamic.Authorized;
  */
 public interface Subject {
 	
-	public void dealTask(String taskName);
+	public void dealTask(String taskName) throws Exception;
 	
 	/**
 	 * Special case added for cglib case for method filter.
@@ -28,6 +26,6 @@ public interface Subject {
 	 *
 	 */
 	@Authorized // annotation for Dynamic Proxy
-	public void authorizedCall();
+	public void authorizedCall() throws Exception;
 	
 }

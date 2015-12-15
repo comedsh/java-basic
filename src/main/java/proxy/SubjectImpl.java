@@ -11,24 +11,20 @@ package proxy;
  */
 public class SubjectImpl implements Subject{
 	
-	public void dealTask(String taskName) {
+	public void dealTask(String taskName) throws Exception{
+		
 		System.out.println("正在执行 dealTask 任务" + taskName);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
+		Thread.sleep( 500 );
+		
 	}
 	
-	public void authorizedCall() {
+	public void authorizedCall() throws Exception{
 		
 		System.out.println("正在执行任务 authorizedCall");
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
+		Thread.sleep( 500 );
+
 	}
 
 }

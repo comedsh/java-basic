@@ -22,7 +22,7 @@ public class ProxySubject implements Subject {
 		
 	}
 	
-	public void dealTask(String taskName) {
+	public void dealTask(String taskName) throws Exception{
 		
 		// 性能监控，每个方法都需要手动加入。 
 		
@@ -36,7 +36,7 @@ public class ProxySubject implements Subject {
 	
 	}
 
-	public void authorizedCall() {
+	public void authorizedCall() throws Exception{
 		
 		// 手动切入权限验证，如果所有方法都需要切入权限验证，则每个方法都需要手动的切入。
 

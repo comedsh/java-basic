@@ -5,10 +5,10 @@ import org.junit.Test;
 import proxy.AuthenticationHolder;
 import proxy.Subject;
 
-public class StaticProxyTest {
+public class StaticProxyTest{
 	
 	@Test 
-	public void test(){
+	public void test() throws Exception{
 		
 		AuthenticationHolder.setUser("manager");
 		

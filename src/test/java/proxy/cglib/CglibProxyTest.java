@@ -9,7 +9,7 @@ import proxy.SubjectImpl;
 public class CglibProxyTest {
 	
 	@Test
-	public void test(){
+	public void test() throws Exception{
 		
 		AuthenticationHolder.setUser("manager");
 		
