@@ -12,7 +12,7 @@ public class StaticProxyTest{
 		
 		AuthenticationHolder.setUser("manager");
 		
-		Subject proxy = SubjectStaticFactory.getInstance();
+		Subject proxy = StaticProxyFactory.getInstance();
 		
 		proxy.dealTask("task for testing");
 		

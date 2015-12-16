@@ -14,11 +14,11 @@ import proxy.Subject;
  */
 public class ProxySubject implements Subject {
 
-	private Subject delegate;
+	private Subject source;
 
-	public ProxySubject(Subject delegate) {
+	public ProxySubject(Subject source) {
 		
-		this.delegate = delegate;
+		this.source = source;
 		
 	}
 	
@@ -28,7 +28,7 @@ public class ProxySubject implements Subject {
 		
 		long stime = System.currentTimeMillis();
 		
-		delegate.dealTask(taskName);
+		source.dealTask(taskName);
 		
 		long ftime = System.currentTimeMillis();
 		
@@ -44,7 +44,7 @@ public class ProxySubject implements Subject {
 		
 		if( AuthenticationHolder.isAdmin() ){
 
-			delegate.authorizedCall();
+			source.authorizedCall();
 			
 		}else{
 			

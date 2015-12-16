@@ -12,7 +12,7 @@ import proxy.Subject;
  * @createTime: 2015年12月14日 下午2:42:45
  *
  */
-public class SubjectStaticFactory {
+public class StaticProxyFactory {
 
 	public static Subject getInstance() {
 		
