@@ -1,4 +1,4 @@
-package socket.nio;
+package socket.nio.scenario_2;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -143,10 +143,8 @@ public class NioServer {
         	key.attach( new Integer(0) ); // 记录当前处理了多少字节。这里明显是 1.4 的做法... 想起了以前 Alfred 在做设计的时候，也用了这么个 attach.
         }
         
-        // 创建读取的缓冲区  
-        // ByteBuffer buffer = ByteBuffer.allocate( 304291840 / 10 );  
-        
-        ByteBuffer buffer = ByteBuffer.allocate( 20 );
+
+        ByteBuffer buffer = ByteBuffer.allocate( 304291840 / 10 );  
         
         int numOfRead = channel.read(buffer);
 
@@ -163,44 +161,15 @@ public class NioServer {
         // 奇怪的地方1：命名设置 ByteBuffer 一次读取的长度为 30429184 个字节，每次却只能最多读取 653280 个字节的长度；难道 channel 每次读取的长度是有上限的。
         // 如果是这样，那么如果真的是一个大文件上传socket连接, 而这样 "将数据切分了" 再处理，势必增加处理的周期和时间。效率上一定不比传统的 Socket 连接好。
         // 将文件切分了处理 -> 正是 NIO 的核心思想，“块”处理。这样，不至于阻塞其它的 socket 连接。
-        // System.out.println( "how many bytes get read of this time:"+ numOfRead );        
+        
+        // 应该是这样的，对于大文件的传输，TCP/IP 是通过报文传输的，也就是说，会将大文件拆分成小块 (根据当前网卡的MTU值来设定的)，每块数据到达，均会激活 select(). 
+        System.out.println( "how many bytes get read of this time:"+ numOfRead );        
         
         int totalRead = ( (Integer) key.attachment() ).intValue() + numOfRead;
         
-        // System.out.println( "how many bytes totally get read so far:"+ totalRead );     
+        System.out.println( "how many bytes totally get read so far:"+ totalRead );     
         
         key.attach( new Integer(totalRead) );
-
-// 		下面的代码阐述了如何转换buffer中的字节数为字符。        
-        
-        byte[] data = buffer.array();  
-
-        String msg = new String(data).trim();  
-        
-        System.out.println("received from client:" + msg );
-        
-        // key.interestOps(SelectionKey.OP_WRITE);  
-        
-        channel.write( ByteBuffer.wrap( msg.getBytes() ) ); 
-        
-        // ** 昨天到今天，我调研的议题是，如果服务器端采用NIO，而客户端采用传统Socket IO的方式，两者通讯的情况和异常。**
-        
-        // key.channel().close(); // 如果用传统的 client 连接，想要收到服务端的信息，这里必须要做 close. 但是副作用是，一旦 close，就不能再次连接了，因为该连接被 kill 掉了.
-                               // ** 所以啊，我在这里大胆的猜测，如果服务器端采用了NIO，那么客户端在和服务器端建立连接的时候，通过前期相互协议试探，那么客户端应该采用的也是 NIO 的方式 **
-        
-        // FIXME: 为什么客户端不能立即收到服务器端的返回数据？客户端 -> Client
-        
-        // key.interestOps(key.interestOps() & ~SelectionKey.OP_WRITE);  // 取消写注册，避免写事件不断的巡回。
-        
-        // channel.close();
-        
-//        PrintWriter writer = new PrintWriter( channel.socket().getOutputStream() );
-//        
-//        writer.println("server has received your message: "+ msg );
-//        
-//        writer.flush();
-        
-        // writer.close();
         
     }  
       

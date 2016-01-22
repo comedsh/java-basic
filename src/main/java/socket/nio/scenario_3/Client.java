@@ -1,10 +1,11 @@
-package socket;
+package socket.nio.scenario_3;
 
-import java.io.BufferedReader;  
-import java.io.InputStreamReader;  
-import java.io.PrintWriter;  
-import java.net.InetAddress;  
-import java.net.Socket;  
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.nio.ByteBuffer;  
   
 public class Client {  
 	
@@ -16,25 +17,16 @@ public class Client {
         
         PrintWriter out = new PrintWriter(server.getOutputStream());
         
-        BufferedReader sin = new BufferedReader(new InputStreamReader(System.in));  
-        
         while (true) {  
         	
-            String str = sin.readLine();  
-            
-            out.println( str );
+            out.println( "hello, I'm Native Client ~ " );
             
             out.flush();
-            
-            if (str.equals("end")) {  
-                break;  
-            }
             
             System.out.println("read from server: " + in.readLine() );
             
         }
         
-        server.close();  
     }  
     
 }  

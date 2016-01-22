@@ -42,9 +42,8 @@ public class Server {
         
         // 这里的问题非常的诡异，当刚连接好的时候，Server 向 Client 发送消息，Client 收不到
         // 非要，客户端先发送消息以后，Server 才能将消息发送给 Client.
-        out.println("server replied we established, waiting for your input ~~ ");
-        
-        out.flush();
+        // out.println("server replied we established, waiting for your input ~~ ");
+        // out.flush();
         
         while (true) {  
         	
@@ -62,7 +61,7 @@ public class Server {
                 break;  
         }  
         
-        client.close();  // 这里的做法不太合理，永远不会主动停止。
+        client.close();  
         
     }  
     

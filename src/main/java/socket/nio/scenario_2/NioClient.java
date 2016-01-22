@@ -1,8 +1,7 @@
-package socket.nio;
+package socket.nio.scenario_2;
 
-import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -11,14 +10,18 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;  
   
 /** 
- * NIO客户端 
+ * 注意，测试的时候，用 scenario_1 / NioServer
  * @author 小路 
  */  
 public class NioClient {  
     //通道管理器  
     private Selector selector;  
     
-    BufferedReader sin = new BufferedReader(new InputStreamReader(System.in));  
+    ByteBuffer output;
+    
+    int total;
+    
+    int currentRead;
   
     /** 
      * 获得一个Socket通道，并对该通道做一些初始化的工作 
@@ -68,15 +71,19 @@ public class NioClient {
                     connect(key);
                       
                 // 获得了可读的事件
-                } else if (key.isReadable()) {  
+                } 
+                
+                if (key.isReadable()) {  
                 	
                     read(key);  
                 
                 }
                 
-                SocketChannel channel = (SocketChannel) key.channel();
-                
-                channel.write(ByteBuffer.wrap( sin.readLine().getBytes()));  
+                if(key.isWritable()){
+                	
+                	write(key);
+                	
+                }
   
             }  
   
@@ -96,28 +103,46 @@ public class NioClient {
         channel.configureBlocking(false);  
         
         // 在和服务端连接成功之后，为了可以接收到服务端的信息，需要给通道设置读的权限。  
-        channel.register(this.selector, SelectionKey.OP_READ);     
+        channel.register(this.selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE );     
         
     }
     
-    /** 
-     * 处理读取服务端发来的信息 的事件 
-     * @param key 
-     * @throws IOException  
-     */  
     public void read(SelectionKey key) throws IOException{  
-    	
-        SocketChannel channel = (SocketChannel)key.channel();
-        
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        channel.read(buffer);
-        byte[] data = buffer.array();
-        String message = new String(data);
-        
-        System.out.println("recevie message from server:, size:" + buffer.position() + " msg: " + message);
     
     }  
-      
+
+    public void write(SelectionKey key) throws IOException{  
+    	
+    	SocketChannel channel = (SocketChannel) key.channel();
+    	
+    	if( output == null ){
+    	
+	        @SuppressWarnings("resource")
+			FileInputStream in = new FileInputStream( "/Users/mac/programs/openjdk-7u40-fcs-src-b43-26_aug_2013.zip" );
+	        
+	        total = in.available();
+	        
+	        byte[] bytes = new byte[ total ];
+	        
+	        System.out.println( total + " bytes");
+	        
+	        in.read( bytes );
+	        
+	        output = ByteBuffer.wrap( bytes ) ; // 创建整个文件内容的 ByteBuffer.
+	        
+    	}
+
+        currentRead += channel.write( output ); // 每次只能发送 100K 左右的数据，下次从上次发送完的 ByteBuffer( output ) 的结束点开始发送。
+        
+        System.out.println( currentRead );
+        
+        if( currentRead == total ){
+        
+        	key.interestOps( key.interestOps() & ~SelectionKey.OP_WRITE );        
+        
+        }
+    }      
+    
       
     /** 
      * 启动客户端测试 
