@@ -95,7 +95,9 @@ public class NioServer {
         System.out.println( "received from client:" + msg );
         
         // 写数据到客户端
-        channel.write( ByteBuffer.wrap( "hi client, server received your message".getBytes() ) ); 
+        // 如果 IO Socket 用 BufferedReader，那么这里要加上 \r\n 换行符，因为 BufferedReader 在接收服务器端返回的时候，遇到换行符或者写满8K才返回。
+        channel.write( ByteBuffer.wrap( "hi client, server received your message \r\n".getBytes() ) ); 
+         
         
     }  
       

@@ -1,1 +1,7 @@
 http://www.oschina.net/question/2618986_2149914
+
+回答：BufferedReader 只有读到换行符号 或者 读满8kb 才返回，你需要在你服务器发送的数据中加入换行符,想要平台通用的话，加上\r\n
+
+进一步测试，如果不用 BufferedReader 而改用纯的 inputstream，查看他的 available()，其实是有数据过来的.... 下次测试的时候，应该要测试得更加细一些。
+
+这个问题的目的主要在于，测试 NIO Socket 和 普通 Socket 之间的兼容性，那么这里得到了答案。
