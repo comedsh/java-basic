@@ -1,4 +1,4 @@
-package socket;
+package socket.tradition;
 
 import java.io.BufferedReader;  
 import java.io.InputStreamReader;  

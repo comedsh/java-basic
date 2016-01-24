@@ -149,16 +149,14 @@ public class NioServer {
         int numOfRead = channel.read(buffer);
 
         // 必须关闭这个 Channel，否则，无限循环~~~ Selector.select() 还会不断的激活该事件；怎么这么蠢？难道就不能自动的将这个 Channel 关闭。 
-        // 表示结束了 -> 如果使用传统的 Socket 连接，则需要使用这个判断，判断输入是否结束，否则，会不停的循环。
-        
-        // *** 双方都采用 NIO 来进行通讯，则无需判断 -1 的情况。
-//        if( numOfRead == -1 ){
-//        	
-//        	key.interestOps(key.interestOps() & ~SelectionKey.OP_READ); // 当读取完毕，取消读事件监听，远程socket发送完毕。
-//             
-//            System.out.println("bye ~ "+ key.channel().toString() );
-//             
-//        }       
+        // 表示结束了 
+        if( numOfRead == -1 ){
+        	
+        	key.interestOps(key.interestOps() & ~SelectionKey.OP_READ); // 当读取完毕，取消读事件监听，远程socket发送完毕。
+             
+            System.out.println("bye ~ "+ key.channel().toString() );
+             
+        }       
         
         // 奇怪的地方1：命名设置 ByteBuffer 一次读取的长度为 30429184 个字节，每次却只能最多读取 653280 个字节的长度；难道 channel 每次读取的长度是有上限的。
         // 如果是这样，那么如果真的是一个大文件上传socket连接, 而这样 "将数据切分了" 再处理，势必增加处理的周期和时间。效率上一定不比传统的 Socket 连接好。
