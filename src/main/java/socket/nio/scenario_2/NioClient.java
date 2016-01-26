@@ -9,10 +9,15 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;  
   
-/** 
- * 注意，测试的时候，用 scenario_1 / NioServer
- * @author 小路 
- */  
+/**
+ *   
+ * @author shang yang
+ *
+ * @version
+ *
+ * @createTime: 2016年1月25日 下午10:36:08
+ *
+ */
 public class NioClient {  
     //通道管理器  
     private Selector selector;  
@@ -132,7 +137,7 @@ public class NioClient {
 	        
     	}
 
-        currentRead += channel.write( output ); // 每次只能发送 100K 左右的数据，下次从上次发送完的 ByteBuffer( output ) 的结束点开始发送。
+        currentRead += channel.write( output ); // 每次只能发送 100K 左右的数据 ( 不定，根据当前 MTU 值而定 )，下次从上次发送完的 ByteBuffer( output ) 的结束点开始发送。
         
         System.out.println( currentRead );
         
