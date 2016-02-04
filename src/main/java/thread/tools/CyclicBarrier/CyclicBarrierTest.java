@@ -5,7 +5,7 @@ import java.util.concurrent.CyclicBarrier;
   
 /**
  * 
- * CyclicBarrier: 当所有线程准备好了以后，做一件由 CyclicBarrier 定义的事情。1) 指定需要准备线程的数量，2) 定义要做的事情 Runnable.
+ * CyclicBarrier: 关卡模式，当所有线程准备好了以后，做一件由 CyclicBarrier 定义的事情。1) 指定需要准备线程的数量，2) 定义要做的事情 Runnable.
  * 
  * 
  * @author shang yang
