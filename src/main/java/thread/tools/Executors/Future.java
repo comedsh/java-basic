@@ -1,34 +1,26 @@
-package thread.threadpool.Future;
+package thread.tools.Executors;
 
 import java.util.concurrent.Callable;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FutureTask {
+public class Future {
 	
     public static void main(String[] args) throws Exception{
-    	
-        //第一种方式
-        ExecutorService executor = Executors.newCachedThreadPool();
         
-        Task2 task = new Task2();
+    	ExecutorService executor = Executors.newCachedThreadPool();
         
-        java.util.concurrent.FutureTask<Integer> futureTask = new java.util.concurrent.FutureTask<Integer>(task);
+        Task1 task = new Task1();
         
-        executor.submit(futureTask);
+        java.util.concurrent.Future<Integer> future = executor.submit(task);
         
+        // 初始化结束操作，意在不让新的进程创建了
         executor.shutdown();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
          
         long start = System.currentTimeMillis();
         
-        Integer r = futureTask.get(); // 方法会一直阻塞直到线程的结果返回。
+        Integer r = future.get(); // 方法会一直阻塞直到线程的结果返回。
         
         long end = System.currentTimeMillis();
         
@@ -37,10 +29,12 @@ public class FutureTask {
     }
 }
 
-class Task2 implements Callable<Integer>{
-    
-	@Override
+class Task1 implements Callable<Integer>{
+	
+    @Override
     public Integer call() throws Exception {
+    	
+        System.out.println("子线程在进行计算");
         
         Thread.sleep(3000);
         
@@ -51,6 +45,5 @@ class Task2 implements Callable<Integer>{
             sum += i;
         
         return sum;
-    
-	}
+    }
 }
