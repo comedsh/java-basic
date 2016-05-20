@@ -13,14 +13,14 @@ public class Future {
         
         Task1 task = new Task1();
         
-        java.util.concurrent.Future<Integer> future = executor.submit(task);
+        java.util.concurrent.Future<Integer> future = executor.submit( task );
         
         // 初始化结束操作，意在不让新的进程创建了
         executor.shutdown();
          
         long start = System.currentTimeMillis();
         
-        Integer r = future.get(); // 方法会一直阻塞直到线程的结果返回。
+        Integer r = future.get(); // 主线程一直阻塞并直到线程的结果返回。
         
         long end = System.currentTimeMillis();
         
