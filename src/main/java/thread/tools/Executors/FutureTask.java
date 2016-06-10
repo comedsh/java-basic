@@ -28,7 +28,13 @@ public class FutureTask {
          
         long start = System.currentTimeMillis();
         
-        Integer r = futureTask.get(); // 方法会一直阻塞直到线程的结果返回。
+        /*
+         * 方法会一直阻塞直到线程的结果返回。
+         * 
+         * 试想，如果 futureTask 本身就在一个线程里面，那么相当于该线程的异步执行，并且线程数量得到了有效的控制。
+         * 
+         */
+        Integer r = futureTask.get(); 
         
         long end = System.currentTimeMillis();
         
