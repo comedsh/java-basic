@@ -1,4 +1,4 @@
-package proxy.dynamic;
+package proxy.dynamic.jdk;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -10,6 +10,8 @@ import org.springframework.util.ReflectionUtils;
 import proxy.AuthenticationHolder;
 import proxy.Subject;
 import proxy.SubjectImpl;
+import proxy.dynamic.jdk.Authorized;
+import proxy.dynamic.jdk.DynamicProxyFactory;
 
 public class DynamicProxyTest {
 	

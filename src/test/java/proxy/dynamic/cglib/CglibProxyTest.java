@@ -1,10 +1,11 @@
-package proxy.cglib;
+package proxy.dynamic.cglib;
 
 import org.junit.Test;
 
 import proxy.AuthenticationHolder;
 import proxy.Subject;
 import proxy.SubjectImpl;
+import proxy.dynamic.cglib.MyCglibProxy;
 
 public class CglibProxyTest {
 	

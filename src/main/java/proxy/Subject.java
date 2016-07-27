@@ -1,6 +1,6 @@
 package proxy;
 
-import proxy.dynamic.Authorized;
+import proxy.dynamic.jdk.Authorized;
 
 /**
  * 

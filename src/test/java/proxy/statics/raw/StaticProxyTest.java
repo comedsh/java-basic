@@ -1,9 +1,10 @@
-package proxy.statics;
+package proxy.statics.raw;
 
 import org.junit.Test;
 
 import proxy.AuthenticationHolder;
 import proxy.Subject;
+import proxy.statics.raw.StaticProxyFactory;
 
 public class StaticProxyTest{
 	

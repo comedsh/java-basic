@@ -1,4 +1,4 @@
-package proxy.cglib;
+package proxy.dynamic.cglib;
 
 import java.lang.reflect.Method;
 
@@ -8,7 +8,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import proxy.AuthenticationHolder;
-import proxy.dynamic.Authorized;
+import proxy.dynamic.jdk.Authorized;
 
 public class MyCglibProxy<T> implements MethodInterceptor {
 

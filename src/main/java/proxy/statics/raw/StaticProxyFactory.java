@@ -1,4 +1,4 @@
-package proxy.statics;
+package proxy.statics.raw;
 
 import proxy.SubjectImpl;
 import proxy.Subject;

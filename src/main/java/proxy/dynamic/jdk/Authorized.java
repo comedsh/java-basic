@@ -1,4 +1,4 @@
-package proxy.dynamic;
+package proxy.dynamic.jdk;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

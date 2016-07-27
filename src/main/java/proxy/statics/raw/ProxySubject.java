@@ -1,4 +1,4 @@
-package proxy.statics;
+package proxy.statics.raw;
 
 import proxy.AuthenticationHolder;
 import proxy.Subject;
