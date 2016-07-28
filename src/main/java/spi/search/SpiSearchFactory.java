@@ -2,7 +2,7 @@ package spi.search;
 
 import java.util.ServiceLoader;
 
-public class SearchFactory {
+public class SpiSearchFactory {
 	
 	public static void main(String[] args){
 		

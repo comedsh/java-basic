@@ -15,7 +15,14 @@ public class SubjectInvocationHandler implements InvocationHandler {
 	public SubjectInvocationHandler(Object source) {
 		this.source = source;
 	}
-
+	
+	/**
+	 * 
+	 * 
+	 * @param proxy { @link java.lang.reflect.Proxy#newProxyInstance(ClassLoader, Class[], InvocationHandler) } 生成的代理类
+	 * @param method { @link proxy.SubjectImpl#dealTask(String) } 方法
+	 * @param args @param method 的参数
+	 */
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
 		long stime = System.currentTimeMillis();
