@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 
 import org.junit.Test;
 
-public class FileChannel {
+public class FileChannelTest {
 	
 	@Test
 	public void test1() throws Exception{
