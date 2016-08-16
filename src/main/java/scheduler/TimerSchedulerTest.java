@@ -39,9 +39,11 @@ public class TimerSchedulerTest {
   
 	
 	/**
-	 * 1000 ms 后开始执行，后续每隔 1000 ms 执行一次，是相对于上次完成后的的时间开始计算间隔时间。
+	 * 1000 ms 后开始执行，后续每隔 1000 ms 执行一次，是相对于上次开始的的时间开始计算间隔时间。
 	 *
 	 * 并且，保证，下次执行一定是在上次执行完毕以后才开始执行。This is what I current need.
+	 * 
+	 * 经过在 org.shangyang.yunpan.client.Client 中的测试，它是相对于上次线程开始的时间戳计算的，如果线程执行过长，超过了等待的时间，那么就直接开始下一个线程。这不是我想要的。
 	 * 
 	 */
 	static int i = 0;
@@ -55,17 +57,13 @@ public class TimerSchedulerTest {
         	
             public void run() {
             		
-        		System.out.println( i++ );
+        		System.out.println( "execution started, counter: "+ i++ );
         		
         		try{
         			
-        			while(true){
-        				
-        				if( n++ >= 5 ) break; // 第一个线程休眠 5 秒钟
-        				
-        				TimeUnit.MILLISECONDS.sleep(500);
-        				
-        			}
+        			TimeUnit.MILLISECONDS.sleep(5000);
+        			
+        			System.out.println("execution completed ");
         			
         		}catch(Exception e){
         			
@@ -73,7 +71,7 @@ public class TimerSchedulerTest {
         	}
                 
             
-        }, 1000, 1000);  
+        }, 1000, 3000);  
 
         // 如果在 main 启动函数中执行，不需要下面这段休眠的代码。Junit 在执行完方法以后，就会对方法 destroy，与之相关联的线程也会被杀死。
         // 所以这里写了这么一段循环以保证该方法存活。
