@@ -15,13 +15,13 @@ public class RsaMain {
 		
 		RSAPrivateKey privateKey = (RSAPrivateKey) map.get("private");
 		
-		//模
+		//模 - n 串
 		String modulus = publicKey.getModulus().toString();
 		
-		//公钥指数
+		//公钥指数 e 串
 		String public_exponent = publicKey.getPublicExponent().toString();
 		
-		//私钥指数
+		//私钥指数 e 串
 		String private_exponent = privateKey.getPrivateExponent().toString();
 		
 		//明文

@@ -1,10 +1,8 @@
 package en_decrypt.rsa.statics;
 
-import java.security.MessageDigest;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import static org.junit.Assert.assertEquals;
 
-import javax.crypto.Cipher;
+import java.security.PrivateKey;
 
 import org.junit.Test;
 
@@ -51,37 +49,29 @@ public class RSAUtilsTest {
 	@Test
 	public void testSign() throws Exception{
 		
-		String signature = RsaUtils.sign(PLAIN_TXT, KEYSTORE_PATH, KEY_ALIAS, KEYSTORE_PASSWORD, KEY_PASSWORD);
+		String signature = RsaUtils.sign( PLAIN_TXT, KEYSTORE_PATH, KEY_ALIAS, KEYSTORE_PASSWORD, KEY_PASSWORD );
 		
 		System.out.println( signature );
 		
 	}
 	
+	/**
+	 * 模拟发送发签名，接收方验证签名的过程。
+	 * 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testVerifySignature() throws Exception{
 		
-		PublicKey publicKey = RsaUtils.getPublicKey( PUBLIC_KEY_PATH );
-	
-		Cipher c4 = Cipher.getInstance("RSA/ECB/PKCS1Padding"); 
+		String hash1 = RsaUtils.hashToBase64( PLAIN_TXT );
 		
-		c4.init( Cipher.DECRYPT_MODE, publicKey );  
+		String signature = RsaUtils.sign( PLAIN_TXT, KEYSTORE_PATH, KEY_ALIAS, KEYSTORE_PASSWORD, KEY_PASSWORD );
 		
-		String base64EncryptedSignature = RsaUtils.sign( PLAIN_TXT, KEYSTORE_PATH, KEY_ALIAS, KEYSTORE_PASSWORD, KEY_PASSWORD );
+		String hash2 = RsaUtils.deSign( signature, PUBLIC_KEY_PATH );
 		
-		byte[] encryptedSignature = decoder.decodeBuffer( base64EncryptedSignature );
+		assertEquals( hash1, hash2 );
 		
-		// decrypted signature
-		byte[] signature = c4.doFinal( encryptedSignature );
-		
-		System.out.println("target: " +  encoder.encode( signature ) );
-		
-		MessageDigest md5 = MessageDigest.getInstance("MD5");
-
-		md5.update( PLAIN_TXT.getBytes("utf-8") );
-
-		byte[] digestBytes = md5.digest();
-		
-		System.out.println( "origin: " + encoder.encode( digestBytes ) );		
 		
 	}
 	
