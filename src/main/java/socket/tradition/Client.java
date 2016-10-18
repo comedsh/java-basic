@@ -12,6 +12,10 @@ public class Client {
         
     	Socket server = new Socket(InetAddress.getLocalHost(), 5678);  
     	
+    	System.out.println("the port of the remote server" + server.getPort());
+    	
+    	System.out.println("the port of the remote server" + server.getRemoteSocketAddress() );
+    	
         BufferedReader in = new BufferedReader( new InputStreamReader( server.getInputStream() ) );  
         
         PrintWriter out = new PrintWriter(server.getOutputStream());

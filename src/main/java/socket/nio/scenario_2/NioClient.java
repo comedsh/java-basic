@@ -50,7 +50,7 @@ public class NioClient {
     }  
   
     /** 
-     * 采用轮询的方式监听selector上是否有需要处理的事件，如果有，则进行处理 
+     * 
      * @throws IOException 
      */  
     public void listen() throws IOException {  
@@ -58,6 +58,7 @@ public class NioClient {
         // 轮询访问selector  
         while (true) {  
         	
+        	// epoll
             selector.select();  
             
             // 获得selector中选中的项的迭代器  

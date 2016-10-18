@@ -106,8 +106,7 @@ public class SelectThread implements Runnable {
 			selector = SelectorProvider.provider().openSelector();
 			this.serverChannel1 = ServerSocketChannel.open();
 			serverChannel1.configureBlocking(false);
-			InetSocketAddress isa = new InetSocketAddress("localhost",
-					this.port1);
+			InetSocketAddress isa = new InetSocketAddress("localhost", this.port1);
 			serverChannel1.socket().bind(isa);
 			serverChannel1.register(selector, SelectionKey.OP_ACCEPT);
 		} catch (IOException e) {

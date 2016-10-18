@@ -49,7 +49,6 @@ public class NioServer {
     }  
   
     /** 
-     * 采用轮询的方式监听selector上是否有需要处理的事件，如果有，则进行处理 
      * @throws IOException 
      */  
     public void listen() throws IOException {  
@@ -112,10 +111,10 @@ public class NioServer {
     
     public void accept(SelectionKey key) throws IOException{
     	
-        ServerSocketChannel server = (ServerSocketChannel) key.channel();  
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();  
         
         // 获得和客户端连接的通道  
-        SocketChannel channel = server.accept();  
+        SocketChannel channel = serverSocketChannel.accept();  
         
         System.out.println("channel id:" + channel.hashCode() );
         
@@ -123,14 +122,14 @@ public class NioServer {
         channel.configureBlocking(false);
         
         // 在和客户端连接成功之后，为了可以接收到客户端的信息，需要给通道设置读的权限。  
-        channel.register( this.selector, SelectionKey.OP_READ );
+        channel.register( this.selector, SelectionKey.OP_READ ); // 这里是不是可以注册另外的 Selector 来处理？
         
         // channel.write( ByteBuffer.wrap( new String("hi client: server has received your message. ").getBytes() ) );
         
     }
         
     /** 
-     * 处理读取客户端发来的信息 的事件 
+     * 处理读取客户端发来的信息的事件 
      * @param key 
      * @throws IOException  
      */  
@@ -141,6 +140,7 @@ public class NioServer {
         
         if( key.attachment() == null ){
         	key.attach( new Integer(0) ); // 记录当前处理了多少字节。这里明显是 1.4 的做法... 想起了以前 Alfred 在做设计的时候，也用了这么个 attach.
+        	/** 从这里可以知道，SelectionKey 是一直被缓存的，知道 client server 连接被销毁 **/
         }
         
 

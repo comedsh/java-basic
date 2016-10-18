@@ -65,7 +65,7 @@ public class NioServer {
             System.out.println("event comes ~~"); // 1.2 一旦客户端 Client 连接，便不再等待...
             
             // 获得 selector 中选中的项的迭代器，选中的项为注册的事件; "一次可以获得好几个事件" 
-            // 单线程，以往，传统的Socket，是每个连接一个线程；现在是多个连接一个线程，并且分块处理。
+            // 单线程，以往，传统的Socket，多个连接多个线程既每个连接一个线程；而现在是多个连接一个线程，并且分块处理。
             // ** 以至于，至少，从 buffer 中读取数据这段，是“串行”执行的，没有并发。**
             Iterator<SelectionKey> iterator = this.selector.selectedKeys().iterator();
             

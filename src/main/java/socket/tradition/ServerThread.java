@@ -39,7 +39,7 @@ public class ServerThread extends Thread {
                 
                 out.flush();  
                 
-                if (str.equals("end"))	break;
+                if (str.equals("end"))	break; // the client wants close the connection.
                 
             }
             
@@ -61,7 +61,7 @@ public class ServerThread extends Thread {
     	
         while (true) {
         	
-        	System.out.println("waiting for accept ~~"); // 1.1 一直等待客户端的连接...
+        	System.out.println("waiting for accept on port 5678 ~~"); // 1.1 一直等待客户端的连接...
         	
             // 为了同时处理多个客户端的请求，这里不得不采用线程的方式，每个线程对应处理一个客户端的连接。
         	// 造成系统资源的极度浪费。
