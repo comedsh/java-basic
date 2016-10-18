@@ -1,0 +1,7 @@
+测试 NIOServer 使用多个 Selector 来监听不同的事件，
+
+1. ServerSocketChannel 监听一个，
+2. SocketChannel 的 OP_READ 一个， 
+3. SocketChannel 的 OP_WRITE 一个 
+
+

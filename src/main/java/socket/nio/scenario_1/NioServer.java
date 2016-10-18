@@ -148,11 +148,16 @@ public class NioServer {
         
         int numOfRead = channel.read(buffer);
 
-        // 必须关闭这个 Channel，否则，无限循环~~~ Selector.select() 还会不断的激活该事件；怎么这么蠢？难道就不能自动的将这个 Channel 关闭。 
-        // 表示结束了 
+        // 当有大文件流传递过来的饿时候，必须关闭这个 Channel，否则，无限循环~~~ Selector.select() 还会不断的激活该事件；怎么这么蠢？难道就不能自动的将这个 Channel 关闭。 
+        // 表示结束了 -- 这应该算是一个 bug，这段代码的目的明显是为了处理 Channel 已经没有数据了，但是事件依旧会触发，提醒有数据来了。
+        // 还有一种情况，就是 Client 异常与服务器断开，这个时候需要的是关闭该 Channel.
         if( numOfRead == -1 ){
         	
-        	key.interestOps(key.interestOps() & ~SelectionKey.OP_READ); // 当读取完毕，取消读事件监听，远程socket发送完毕。
+        	key.cancel();
+        	
+        	channel.close();
+        	
+        	// key.interestOps(key.interestOps() & ~SelectionKey.OP_READ); // 当读取完毕，取消读事件监听，远程socket发送完毕。这样做是错误的，其实 key 还是再不断的被轮询，只是不再关注 OP_READ 而已
              
             System.out.println("bye ~ "+ key.channel().toString() );
              

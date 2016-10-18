@@ -123,9 +123,7 @@ public class NioServer {
         channel.configureBlocking(false);
         
         // 在和客户端连接成功之后，为了可以接收到客户端的信息，需要给通道设置读的权限。  
-        channel.register( this.selector, SelectionKey.OP_READ );
-        
-        // channel.write( ByteBuffer.wrap( new String("hi client: server has received your message. ").getBytes() ) );
+        channel.register( this.selector, SelectionKey.OP_READ ); /** 可以看到，一个 selector 可以被多个 Channel 注册，用来监听 Channel 的事件 **/
         
     }
         
