@@ -7,12 +7,12 @@ import org.springframework.core.annotation.AnnotationUtils;
 
 import proxy.AuthenticationHolder;
 
-public class SubjectInvocationHandler implements InvocationHandler {
+public class InvocationHandlerImpl implements InvocationHandler {
 
 	// 代理类持有一个委托类的对象引用
 	private Object source;
 
-	public SubjectInvocationHandler(Object source) {
+	public InvocationHandlerImpl(Object source) {
 		this.source = source;
 	}
 	

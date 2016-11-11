@@ -3,7 +3,7 @@ package proxy.dynamic.cglib;
 import org.junit.Test;
 
 import proxy.AuthenticationHolder;
-import proxy.Subject;
+import proxy.ISubject;
 import proxy.SubjectImpl;
 import proxy.dynamic.cglib.MyCglibProxy;
 
@@ -14,9 +14,9 @@ public class CglibProxyTest {
 		
 		AuthenticationHolder.setUser("manager");
 		
-		MyCglibProxy<Subject> proxy = new MyCglibProxy<Subject>();
+		MyCglibProxy<ISubject> proxy = new MyCglibProxy<ISubject>();
 		
-		Subject subject = proxy.getBean( SubjectImpl.class );
+		ISubject subject = proxy.getBean( SubjectImpl.class );
 		
 		subject.dealTask("task for testing");
 		

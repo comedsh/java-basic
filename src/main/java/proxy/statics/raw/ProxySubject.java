@@ -1,7 +1,7 @@
 package proxy.statics.raw;
 
 import proxy.AuthenticationHolder;
-import proxy.Subject;
+import proxy.ISubject;
 
 /**
  * 
@@ -12,11 +12,11 @@ import proxy.Subject;
  * @createTime: 2015年12月14日 下午2:40:24
  *
  */
-public class ProxySubject implements Subject {
+public class ProxySubject implements ISubject {
 
-	private Subject source;
+	private ISubject source;
 
-	public ProxySubject(Subject source) {
+	public ProxySubject(ISubject source) {
 		
 		this.source = source;
 		

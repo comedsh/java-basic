@@ -3,7 +3,7 @@ package proxy.statics.raw;
 import org.junit.Test;
 
 import proxy.AuthenticationHolder;
-import proxy.Subject;
+import proxy.ISubject;
 import proxy.statics.raw.StaticProxyFactory;
 
 public class StaticProxyTest{
@@ -13,7 +13,7 @@ public class StaticProxyTest{
 		
 		AuthenticationHolder.setUser("manager");
 		
-		Subject proxy = StaticProxyFactory.getInstance();
+		ISubject proxy = StaticProxyFactory.getInstance();
 		
 		proxy.dealTask("task for testing");
 		

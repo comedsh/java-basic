@@ -11,7 +11,7 @@ import proxy.dynamic.jdk.Authorized;
  * @createTime: 2015年12月14日 下午2:34:15
  *
  */
-public interface Subject {
+public interface ISubject {
 	
 	public void dealTask(String taskName) throws Exception;
 	

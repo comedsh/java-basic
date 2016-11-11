@@ -9,7 +9,7 @@ package proxy;
  * @createTime: 2015年12月14日 下午2:38:16
  *
  */
-public class SubjectImpl implements Subject{
+public class SubjectImpl implements ISubject{
 	
 	public void dealTask(String taskName) throws Exception{
 		

@@ -108,8 +108,7 @@ public class NioServer {
         // 设置成非阻塞  
         channel.configureBlocking(false);
         
-        NioReader.register( channel );
-        
+        NioReader.register( channel );        
         
     }
     

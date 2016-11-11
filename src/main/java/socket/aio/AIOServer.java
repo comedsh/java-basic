@@ -19,19 +19,26 @@ public class AIOServer {
 	
 	public final static int PORT = 9888;
 	
-	private AsynchronousServerSocketChannel server;
+	private AsynchronousServerSocketChannel serverSocketChannel;
 
 	public AIOServer() throws IOException {
 		
-		server = AsynchronousServerSocketChannel.open().bind( new InetSocketAddress(PORT) );
+		serverSocketChannel = AsynchronousServerSocketChannel.open().bind( new InetSocketAddress(PORT) );
 	
 	}
 
+	/**
+	 * 方式一、
+	 * 
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @throws TimeoutException
+	 */
 	public void startWithFuture() throws InterruptedException, ExecutionException, TimeoutException {
 		
 		System.out.println( "Server listen on " + PORT );
 		
-		Future<AsynchronousSocketChannel> future = server.accept();
+		Future<AsynchronousSocketChannel> future = serverSocketChannel.accept();
 		
 		AsynchronousSocketChannel socket = future.get();
 		
@@ -49,18 +56,28 @@ public class AIOServer {
 
 	}
 
+	/**
+	 * 方式二、
+	 * 
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @throws TimeoutException
+	 */
 	public void startWithCompletionHandler() throws InterruptedException, ExecutionException, TimeoutException {
 		
 		System.out.println( "Server listen on " + PORT );
 		
 		//注册事件和事件完成后的处理器
-		server.accept(null,
+		serverSocketChannel.accept(null,
 			
+				/**
+				 * 特别注意，这里的回调方法返回 SocketChannel
+				 */
 				new CompletionHandler<AsynchronousSocketChannel, Object>() {
 			
 					final ByteBuffer buffer = ByteBuffer.allocate(1024);
 
-					public void completed(AsynchronousSocketChannel asycChannel, Object attachment) {
+					public void completed(AsynchronousSocketChannel socketChannel, Object attachment) {
 						
 						System.out.println(Thread.currentThread().getName());
 						
@@ -70,7 +87,11 @@ public class AIOServer {
 							
 							buffer.clear();
 							
-							asycChannel.read( buffer ).get(1000, TimeUnit.SECONDS);
+							/**
+							 * 这里的实现方式是有些问题的，因为 socket channel 中的数据往往是不会一次性读取完的；所以需要循环多次，并且通过多次 CompletionHandler 的调用...
+							 * 具体例子可以参考 mycat 的 AIOSocketWR 和 AIOReadHandler，以及 mycat aio-sequence.asta
+							 */
+							socketChannel.read( buffer ).get(1000, TimeUnit.SECONDS);
 							
 							buffer.flip();
 							
@@ -88,9 +109,12 @@ public class AIOServer {
 
 							try {
 								
-								asycChannel.close();
+								socketChannel.close();
 								
-								server.accept(null, this);
+								/**
+								 * 继续接受
+								 */
+								serverSocketChannel.accept(null, this);
 								
 							} catch (Exception e) {
 								
@@ -124,9 +148,10 @@ public class AIOServer {
 	}
 
 	public static void main(String args[]) throws Exception {
+	
+		//new AIOServer().startWithFuture();
 		
 		new AIOServer().startWithCompletionHandler();
-		//new AIOServer().startWithFuture();
-	
+
 	}
 }

@@ -1,17 +1,14 @@
 package proxy.dynamic.jdk;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.junit.Test;
-import org.springframework.util.Assert;
-import org.springframework.util.ReflectionUtils;
 
 import proxy.AuthenticationHolder;
-import proxy.Subject;
+import proxy.ISubject;
 import proxy.SubjectImpl;
-import proxy.dynamic.jdk.Authorized;
-import proxy.dynamic.jdk.DynamicProxyFactory;
+import sun.misc.ProxyGenerator;
 
 public class DynamicProxyTest {
 	
@@ -20,9 +17,9 @@ public class DynamicProxyTest {
 		
 		AuthenticationHolder.setUser("manager");
 		
-		Subject subject = new SubjectImpl();
+		ISubject subject = new SubjectImpl();
 		
-		Subject proxy = DynamicProxyFactory.getInstance(subject);  
+		ISubject proxy = DynamicProxyFactory.getInstance(subject);  
 		
 		proxy.dealTask("task for testing");  	
 		
@@ -34,15 +31,31 @@ public class DynamicProxyTest {
 	
 	}
 	
+	/**
+	 * 生成字节码文件，看看到底生成了什么？
+	 * 
+	 * @throws Exception
+	 */
 	@Test
-	public void testAny(){
+	public void testGenerateProxyClassFile() throws Exception{
 		
-		Method method = ReflectionUtils.findMethod( Subject.class, "authorizedCall" );
-		
-		Annotation ann = method.getAnnotation( Authorized.class );
-		
-		Assert.notNull( ann );
-		
-	}
-	
+		byte[] classFile = ProxyGenerator.generateProxyClass("$Proxy11", new SubjectImpl().getClass().getInterfaces());  
+        
+        FileOutputStream out = null;  
+          
+        try {  
+            out = new FileOutputStream("/Users/mac/tmp/$Proxy11.class");  
+            out.write(classFile);  
+            out.flush();  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        } finally {  
+            try {  
+                out.close();  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }  		
+
 }

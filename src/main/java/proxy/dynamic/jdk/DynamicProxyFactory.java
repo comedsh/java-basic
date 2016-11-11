@@ -12,7 +12,7 @@ public class DynamicProxyFactory<T> {
 	// 对客户类来说，其并不知道返回的是代理类对象还是委托类对象。
 	public static <T> T getInstance( T o ) {
 		
-		InvocationHandler handler = new SubjectInvocationHandler(o);
+		InvocationHandler handler = new InvocationHandlerImpl(o);
 		
 		@SuppressWarnings("unchecked")
 		T proxy = (T) Proxy.newProxyInstance( o.getClass().getClassLoader(), o.getClass().getInterfaces(), handler ); 
